@@ -138,23 +138,14 @@ Rectangle {
             font.pixelSize: 12
         }
 
-        Rectangle {
-            id: rectangle2
-            x: 196
-            y: 18
-            width: 381
-            height: 233
-            color: "#ecd7d7"
-
-            TextEdit {
-                id: text_edit1
-                objectName: "textedit1"
-                x: 0
-                y: 0
-                width: 381
-                height: 233
-                text: qsTr("")
-                font.pixelSize: 12
-            }
+        TextEdit {
+            id: text_edit1
+            objectName: "textedit1"
+            x: 193
+            y: 12
+            width: 364
+            height: 240
+            text: qsTr("")
+            font.pixelSize: 12
         }
 }

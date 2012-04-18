@@ -67,6 +67,10 @@ void MainWindow::sayButton()
         socket->write(QString(message + "\n").toUtf8());
     }
     textinput->setProperty("text","");
+    QObject* textedit = Root->findChild<QObject*>("textedit1");
+    QString text =textedit->property("text").toString();
+    text=text+message+"\n";
+    textedit->setProperty("text",text);
    // sayLineEdit->clear();
     //sayLineEdit->setFocus();
 }
