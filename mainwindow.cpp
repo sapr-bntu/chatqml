@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     Root = ui->rootObject();
     //Соединяем C++ и QML, делая видимым функции С++ через элемент window
     ui->rootContext()->setContextProperty("window", this);
+    socket = new QTcpSocket(this);
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+
 }
 
 MainWindow::~MainWindow()
@@ -50,7 +53,7 @@ void MainWindow::connectC()
 
     QObject* textinput = Root->findChild<QObject*>("textinput");
     QString str;
-    socket = new QTcpSocket(this);
+
     str=(textinput->property("text")).toString();
     socket->connectToHost(str, 4200);
     textinput=Root->findChild<QObject*>("textinput2");
@@ -67,10 +70,42 @@ void MainWindow::sayButton()
         socket->write(QString(message + "\n").toUtf8());
     }
     textinput->setProperty("text","");
-    QObject* textedit = Root->findChild<QObject*>("textedit1");
-    QString text =textedit->property("text").toString();
-    text=text+message+"\n";
-    textedit->setProperty("text",text);
+
    // sayLineEdit->clear();
     //sayLineEdit->setFocus();
+}
+
+void MainWindow::readyRead()
+{
+    // We'll loop over every (complete) line of text that the server has sent us:
+    while(socket->canReadLine())
+    {
+        // Here's the line the of text the server sent us (we use UTF-8 so
+        // that non-English speakers can chat in their native language)
+        QString line = QString::fromUtf8(socket->readLine()).trimmed();
+        QObject* textedit = Root->findChild<QObject*>("textedit1");
+        QString text =textedit->property("text").toString();
+        QRegExp messageRegex("^([^:]+):(.*)$");
+        QRegExp usersRegex("^/users:(.*)$");
+        QObject* textinput = Root->findChild<QObject*>("textinput2");
+        QString str;
+        str=(textinput->property("text")).toString();
+        // Is this a users message:
+               QString smile= QString(str+":=)");
+               if(usersRegex.indexIn(line) != -1)
+               {
+
+               }
+               // Is this a normal chat message:
+               else if(messageRegex.indexIn(line) != -1)
+               {
+
+                   if  (line==smile)
+                   {
+                   line = "<img src=\"C:/crazy.gif\"/>";
+                   }
+                   text=text+"\n"+line;
+                   textedit->setProperty("text",text);
+               }
+    }
 }

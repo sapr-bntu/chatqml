@@ -28,8 +28,15 @@ private:
     QObject *Root;//корневой элемент QML модели
     QTcpSocket *socket;
 
-private slots:
+private slots:    
 
+    // This is a function we'll connect to a socket's readyRead()
+    // signal, which tells us there's text to be read from the chat
+    // server.
+    void readyRead();
+
+    // This function gets called when the socket tells us it's connected.
+ //   void connected();
 
 
 };
