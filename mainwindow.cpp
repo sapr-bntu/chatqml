@@ -84,14 +84,15 @@ void MainWindow::readyRead()
         // that non-English speakers can chat in their native language)
         QString line = QString::fromUtf8(socket->readLine()).trimmed();
         QObject* textedit = Root->findChild<QObject*>("textedit1");
-        QString text =textedit->property("text").toString();
+        QString text =textedit->property("text").toString();        
         QRegExp messageRegex("^([^:]+):(.*)$");
         QRegExp usersRegex("^/users:(.*)$");
         QObject* textinput = Root->findChild<QObject*>("textinput2");
         QString str;
         str=(textinput->property("text")).toString();
         // Is this a users message:
-               QString smile= QString(str+":=)");
+               QString smileok= QString("=)");
+               QString smilesad= QString("=(");
                if(usersRegex.indexIn(line) != -1)
                {
 
@@ -100,9 +101,15 @@ void MainWindow::readyRead()
                else if(messageRegex.indexIn(line) != -1)
                {
 
-                   if  (line==smile)
+                   if  (line.contains(smileok))
                    {
-                   line = "<img src=\"C:/crazy.gif\"/>";
+                       int k = line.indexOf(smileok);
+                       line.replace(k,2,"<img src=\":/crazy.gif\"/>");
+                   }
+                   if  (line.contains(smilesad))
+                   {
+                       int k = line.indexOf(smilesad);
+                       line.replace(k,2,"<img src=\":/beee.gif\"/>");
                    }
                    text=text+"\n"+line;
                    textedit->setProperty("text",text);

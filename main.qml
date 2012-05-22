@@ -143,6 +143,8 @@ Rectangle {
                 id: text_edit1
                 objectName: "textedit1"
                 text: qsTr("")
+                wrapMode: TextEdit.NoWrap
+                textFormat: TextEdit.RichText
                 anchors.fill: parent
                 font.pixelSize: 12
             }
