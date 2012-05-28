@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>crazy.gif</file>
         <file>beee.gif</file>
+        <file>android-logo.jpg</file>
     </qresource>
 </RCC>
