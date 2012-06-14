@@ -19,7 +19,7 @@ void ChatterBoxServer::incomingConnection(int socketfd)
     connect(client, SIGNAL(disconnected()), this, SLOT(disconnected()));
 }
 
-void ChatterBoxServer::readyRead()
+bool ChatterBoxServer::readyRead()
 {
     QTcpSocket *client = (QTcpSocket*)sender();
     while(client->canReadLine())
@@ -52,9 +52,10 @@ void ChatterBoxServer::readyRead()
             qWarning() << "Got bad message from client:" << client->peerAddress().toString() << line;
         }
     }
+    return true;
 }
 
-void ChatterBoxServer::disconnected()
+bool ChatterBoxServer::disconnected()
 {
     QTcpSocket *client = (QTcpSocket*)sender();
     qDebug() << "Client disconnected:" << client->peerAddress().toString();
@@ -67,9 +68,10 @@ void ChatterBoxServer::disconnected()
     sendUserList();
     foreach(QTcpSocket *client, clients)
         client->write(QString("Server:" + user + " has left.\n").toUtf8());
+    return true;
 }
 
-void ChatterBoxServer::sendUserList()
+bool ChatterBoxServer::sendUserList()
 {
     QStringList userList;
     foreach(QString user, users.values())
@@ -77,4 +79,5 @@ void ChatterBoxServer::sendUserList()
 
     foreach(QTcpSocket *client, clients)
         client->write(QString("/users:" + userList.join(",") + "\n").toUtf8());
+    return true;
 }

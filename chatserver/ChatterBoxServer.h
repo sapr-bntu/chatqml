@@ -14,15 +14,15 @@ class ChatterBoxServer : public QTcpServer
     public:
         ChatterBoxServer(QObject *parent=0);
 
-    private slots:
-        void readyRead();
-        void disconnected();
-        void sendUserList();
+    public slots:
+        bool readyRead();
+        bool disconnected();
+        bool sendUserList();
 
-    protected:
+   public:
         void incomingConnection(int socketfd);
 
-    private:
+
         QSet<QTcpSocket*> clients;
         QMap<QTcpSocket*,QString> users;
 };
