@@ -19,9 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    Q_INVOKABLE void FunctionC();//Функция C++ вызываемая из QML
-    Q_INVOKABLE void connectC();//Функция подключения к серверу
-    Q_INVOKABLE  void sayButton();
+    Q_INVOKABLE bool FunctionC();//Функция C++ вызываемая из QML
+    Q_INVOKABLE bool connectC();//Функция подключения к серверу
+    Q_INVOKABLE bool sayButton();
 
 private:
     QDeclarativeView *ui;

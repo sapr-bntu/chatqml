@@ -24,7 +24,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::FunctionC()
+bool MainWindow::FunctionC()
 {
     //Найдем строку ввода
     QObject* textinput = Root->findChild<QObject*>("textinput");
@@ -46,9 +46,9 @@ void MainWindow::FunctionC()
 
     //Ну и наконец выведем в поле вывода нашу информацию
     memo->setProperty("text", str+"+1="+str2);
+    return true;
 }
-
-void MainWindow::connectC()
+bool  MainWindow::connectC()
 {
 
     QObject* textinput = Root->findChild<QObject*>("textinput");
@@ -59,9 +59,10 @@ void MainWindow::connectC()
     textinput=Root->findChild<QObject*>("textinput2");
     str=(textinput->property("text")).toString();
     socket->write(QString("/me:" + str + "\n").toUtf8());
+    return true;
 }
 
-void MainWindow::sayButton()
+bool MainWindow::sayButton()
 {
     QObject* textinput = Root->findChild<QObject*>("textinput1");
     QString message =textinput->property("text").toString();
@@ -73,6 +74,7 @@ void MainWindow::sayButton()
 
    // sayLineEdit->clear();
     //sayLineEdit->setFocus();
+    return true;
 }
 
 void MainWindow::readyRead()
